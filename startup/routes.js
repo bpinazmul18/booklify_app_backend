@@ -15,12 +15,7 @@ module.exports = function (app) {
 
     //routes
     app.use('/', home)
-    app.use('/api/genres', genres)
-    app.use('/api/movies', movies)
-    app.use('/api/customers', customers)
-    app.use('/api/rentals', rentals)
     app.use('/api/users', users)
-    app.use('/api/returns', returns)
     app.use('/api/auth', auth)
 
     //error
