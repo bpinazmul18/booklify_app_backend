@@ -1,0 +1,6 @@
+{
+    "name": "booklify --Default",
+    "dbURI": "mongodb://localhost:27017/booklify_test",
+    "jwtPrivateKey": "123",
+    "port": "3001"
+}

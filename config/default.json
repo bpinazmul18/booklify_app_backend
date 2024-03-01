@@ -1,0 +1,7 @@
+{
+  "name": "booklify --Default",
+  "dbURI": "mongodb://localhost:27017/booklify",
+  "jwtPrivateKey": "123",
+  "port": "9001",
+  "requiresAuth": true
+}

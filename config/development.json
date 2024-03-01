@@ -1,0 +1,6 @@
+{
+    "name" : "booklify --Development",
+    "mail" : {
+        "host" : "dev-mail-server"
+    }
+}

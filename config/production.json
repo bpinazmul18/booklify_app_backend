@@ -1,0 +1,6 @@
+{
+    "name" : "booklify --Production",
+    "mail" : {
+        "host" : "prod-mail-server"
+    }
+}
