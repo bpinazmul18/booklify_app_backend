@@ -3,7 +3,7 @@ const auth = require('../middleware/auth')
 const router = express.Router()
 const _ = require('lodash')
 
-const { Book, validate } = require('../models/book')
+const { Book, validate, updateValidate } = require('../models/book')
 const { User } = require('../models/user')
 const validateObjectId = require('../middleware/validateObjectId')
 
@@ -73,7 +73,7 @@ router.post('/', [auth], async (req, res) => {
     // Save to database and return to client
     await book.save()
 
-    const result = _.pick(book, ['name', 'price', 'author'])
+    const result = _.pick(book, ['_id', 'name', 'price', 'author'])
 
     return res.status(200).send({
         status: 200,
@@ -99,6 +99,34 @@ router.get('/:id', [auth, validateObjectId], async (req, res) => {
         status: 200,
         success: true,
         message: 'Book was found by given ID!',
+        data: result
+    })
+})
+
+router.put("/:id", [auth, validateObjectId], async (req, res) => {
+    // Get data by ID and validate input field
+    const { error, value } = updateValidate(req.body)
+    if (error) return res.status(400).send({
+        status: 400,
+        success: false,
+        message: error['details'][0].message,
+    })
+
+    // Find book= by ID and update
+    const book = await Book.findByIdAndUpdate(req.params.id, value, { new: true })
+    if (!book) return res.status(404).send({
+        status: 404,
+        success: false,
+        message: 'Book was not found by given ID!',
+    })
+
+    const result = _.omit(book.toObject(), ['uploadedBy'])
+
+    // Response to the client
+    return res.send({
+        status: 200,
+        success: true,
+        message: 'Book was updated by given ID!',
         data: result
     })
 })

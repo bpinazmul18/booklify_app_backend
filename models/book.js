@@ -38,5 +38,16 @@ function validateBook(book) {
     return schema.validate(book)
 }
 
+function updateValidateBook(book) {
+    const schema = Joi.object({
+        name: Joi.string().min(5).max(255),
+        price: Joi.number().min(0),
+        author: Joi.string().min(5).max(255),
+    })
+
+    return schema.validate(book)
+}
+
 module.exports.Book = Book
 module.exports.validate = validateBook
+module.exports.updateValidate = updateValidateBook
