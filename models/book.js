@@ -25,8 +25,8 @@ const Book = new mongoose.model('Book', new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User',
-    }
-}))
+    },
+}, { timestamps: true }))
 
 function validateBook(book) {
     const schema = Joi.object({
