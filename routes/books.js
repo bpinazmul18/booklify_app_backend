@@ -131,4 +131,24 @@ router.put("/:id", [auth, validateObjectId], async (req, res) => {
     })
 })
 
+router.delete('/:id', [auth], async (req, res) => {
+    // Find user by ID
+    const book = await Book.findByIdAndRemove(req.params.id)
+    if (!book) return res.status(404).send({
+        status: 404,
+        success: false,
+        message: 'Book was not found by given ID!',
+    })
+
+    const result = _.omit(book.toObject(), ['uploadedBy'])
+
+    // Response to the client
+    return res.send({
+        status: 200,
+        success: true,
+        message: 'Book was deleted by given ID!',
+        data: result
+    })
+})
+
 module.exports = router
