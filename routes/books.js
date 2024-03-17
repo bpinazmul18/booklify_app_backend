@@ -5,6 +5,7 @@ const _ = require('lodash')
 
 const { Book, validate } = require('../models/book')
 const { User } = require('../models/user')
+const validateObjectId = require('../middleware/validateObjectId')
 
 router.get('/', [auth], async (req, res) => {
     const books = await Book.find({ uploadedBy: req.user._id })
@@ -78,6 +79,26 @@ router.post('/', [auth], async (req, res) => {
         status: 200,
         success: true,
         message: 'Book successfully added.',
+        data: result
+    })
+})
+
+router.get('/:id', [auth, validateObjectId], async (req, res) => {
+    // Find book by ID
+    const book = await Book.findById(req.params.id)
+    if (!book) return res.status(404).send({
+        status: 404,
+        success: false,
+        message: 'Book was not found by given ID!',
+    })
+
+    const result = _.omit(book.toObject(), ['uploadedBy'])
+
+    // Response to the client
+    return res.send({
+        status: 200,
+        success: true,
+        message: 'Book was found by given ID!',
         data: result
     })
 })
