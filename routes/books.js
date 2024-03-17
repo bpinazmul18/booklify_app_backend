@@ -19,7 +19,27 @@ router.get('/', [auth], async (req, res) => {
     })
 })
 
+router.get('/search', [auth], async (req, res) => {
+    const searchText = req.body.text;
+    const searchNumber = parseFloat(searchText);
 
+    const books = await Book.find({
+        $or: [
+            { name: { $regex: searchText, $options: 'i' } },
+            { price: isNaN(searchNumber) ? null : searchNumber },
+            { author: { $regex: searchText, $options: 'i' } }
+        ]
+    })
+        .select(['-__v', '-uploadedBy'])
+        .sort('name')
+
+    return res.status(200).send({
+        status: 200,
+        success: true,
+        message: 'Book successfully got.',
+        data: books
+    })
+})
 
 router.post('/', [auth], async (req, res) => {
     // Validate input field
