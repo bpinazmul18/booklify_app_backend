@@ -6,7 +6,7 @@ const Book = new mongoose.model('Book', new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minLength: 5,
+        minLength: 2,
         maxLength: 255,
     },
     price: {
@@ -18,7 +18,7 @@ const Book = new mongoose.model('Book', new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minLength: 5,
+        minLength: 2,
         maxLength: 255,
     },
     uploadedBy: {
@@ -30,9 +30,9 @@ const Book = new mongoose.model('Book', new mongoose.Schema({
 
 function validateBook(book) {
     const schema = Joi.object({
-        name: Joi.string().min(5).max(255).required(),
+        name: Joi.string().min(2).max(255).required(),
         price: Joi.number().min(0).required(),
-        author: Joi.string().min(5).max(255).required(),
+        author: Joi.string().min(2).max(255).required(),
     })
 
     return schema.validate(book)
@@ -40,9 +40,9 @@ function validateBook(book) {
 
 function updateValidateBook(book) {
     const schema = Joi.object({
-        name: Joi.string().min(5).max(255),
+        name: Joi.string().min(2).max(255),
         price: Joi.number().min(0),
-        author: Joi.string().min(5).max(255),
+        author: Joi.string().min(2).max(255),
     })
 
     return schema.validate(book)
