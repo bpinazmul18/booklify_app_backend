@@ -10,7 +10,7 @@ const validateObjectId = require('../middleware/validateObjectId')
 router.get('/', [auth], async (req, res) => {
     const books = await Book.find({ uploadedBy: req.user._id })
         .select(['-__v', '-uploadedBy'])
-        .sort('name')
+        .sort('-createdAt')
 
     return res.status(200).send({
         status: 200,
